@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Viewer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #1e1e1e;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+        p {
+            color: #b0b0b0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #b0b0b0;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+        }
+        .form-group button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            font-weight: bold;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .download-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .download-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .result img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background-color: #1e1e1e;
+            padding: 10px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .navbar a {
+            color: #e0e0e0;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+            font-weight: bold;
+        }
+        .navbar a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">Profile Viewer</a>
+        <a href="asset.html">Asset Viewer</a>
+    </div>
+    <div class="container" id="content">
+        <h1>Asset Viewer</h1>
+        <div class="form-group">
+            <label for="assetId">Enter Asset ID:</label>
+            <input type="text" id="assetId" placeholder="Enter asset ID">
+        </div>
+        <div class="form-group">
+            <button id="viewAssetButton">View Asset</button>
+        </div>
+        <div class="result" id="assetResult"></div>
+    </div>
+    <script src="assetscript.js"></script>
+</body>
+</html>
