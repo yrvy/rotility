@@ -10,22 +10,22 @@ document.getElementById('viewAssetButton').addEventListener('click', async () =>
 
 async function loadAsset(assetId) {
     try {
-        const locationResponse = await fetch(`http://localhost:3000/assetId/${assetId}`);
+        const locationResponse = await fetch(`/api/assetId/${assetId}`);
         const locationData = await locationResponse.json();
         const location = locationData.location;
 
-        const assetResponse = await fetch(`http://localhost:3000/asset?location=${encodeURIComponent(location)}`);
+        const assetResponse = await fetch(`/api/asset?location=${encodeURIComponent(location)}`);
         const assetText = await assetResponse.text();
         const templateId = parseTemplateId(assetText);
 
-        const templateResponse = await fetch(`http://localhost:3000/assetId/${templateId}`);
+        const templateResponse = await fetch(`/api/assetId/${templateId}`);
         const templateData = await templateResponse.json();
         const templateLocation = templateData.location;
 
-        const assetContentResponse = await fetch(`http://localhost:3000/asset?location=${encodeURIComponent(templateLocation)}`);
+        const assetContentResponse = await fetch(`/api/asset?location=${encodeURIComponent(templateLocation)}`);
         const assetContent = await assetContentResponse.blob();
 
-        const assetInfoResponse = await fetch(`http://localhost:3000/assetInfo/${assetId}`);
+        const assetInfoResponse = await fetch(`/api/assetInfo/${assetId}`);
         const assetInfo = await assetInfoResponse.json();
 
         const description = assetInfo.Description.length > 130 ? "Description too long, not displaying." : assetInfo.Description;

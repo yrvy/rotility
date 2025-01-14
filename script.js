@@ -6,6 +6,7 @@ document.getElementById('viewProfileButton').addEventListener('click', async () 
     }
     document.getElementById('result').textContent = 'Loading...';
     await loadUserProfile(username);
+    await sendLog(`Searched for profile: ${username}`);
 });
 
 async function loadUserProfile(username) {
@@ -126,7 +127,7 @@ async function loadUserProfile(username) {
 }
 
 async function fetchUserId(username) {
-    const response = await fetch('http://localhost:3000/usernames/users', {
+    const response = await fetch('/api/usernames/users', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -141,7 +142,7 @@ async function fetchUserId(username) {
 }
 
 async function fetchUserAvatar(userId) {
-    const response = await fetch(`http://localhost:3000/users/avatar?userIds=${userId}&size=720x720&format=Png`);
+    const response = await fetch(`/api/users/avatar?userIds=${userId}&size=720x720&format=Png`);
     const data = await response.json();
     if (!data.data.length) {
         throw new Error('Avatar not found');
@@ -150,7 +151,7 @@ async function fetchUserAvatar(userId) {
 }
 
 async function fetchUserProfile(userId) {
-    const response = await fetch(`http://localhost:3000/users/profile?userId=${userId}`);
+    const response = await fetch(`/api/users/profile?userId=${userId}`);
     const data = await response.json();
     if (!data) {
         throw new Error('Profile not found');
@@ -159,7 +160,7 @@ async function fetchUserProfile(userId) {
 }
 
 async function fetchUserFriends(userId) {
-    const response = await fetch(`http://localhost:3000/users/friends?userId=${userId}`);
+    const response = await fetch(`/api/users/friends?userId=${userId}`);
     const data = await response.json();
     if (!data) {
         throw new Error('Friends not found');
@@ -168,7 +169,7 @@ async function fetchUserFriends(userId) {
 }
 
 async function fetchUserFollowers(userId) {
-    const response = await fetch(`http://localhost:3000/users/followers?userId=${userId}`);
+    const response = await fetch(`/api/users/followers?userId=${userId}`);
     const data = await response.json();
     if (!data) {
         throw new Error('Followers not found');
@@ -177,7 +178,7 @@ async function fetchUserFollowers(userId) {
 }
 
 async function fetchUserFollowing(userId) {
-    const response = await fetch(`http://localhost:3000/users/following?userId=${userId}`);
+    const response = await fetch(`/api/users/following?userId=${userId}`);
     const data = await response.json();
     if (!data) {
         throw new Error('Following not found');
@@ -186,7 +187,7 @@ async function fetchUserFollowing(userId) {
 }
 
 async function fetchUserItems(userId) {
-    const response = await fetch(`http://localhost:3000/users/items?userIds=${userId}`);
+    const response = await fetch(`/api/users/items?userIds=${userId}`);
     if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Server error: ${errorText}`);
@@ -200,7 +201,7 @@ async function fetchUserItems(userId) {
 
 async function fetchItemThumbnails(items) {
     const itemIds = items.map(item => item.id).join(',');
-    const response = await fetch(`http://localhost:3000/items/thumbnails?assetIds=${itemIds}&size=420x420&format=Png`);
+    const response = await fetch(`/api/items/thumbnails?assetIds=${itemIds}&size=420x420&format=Png`);
     const data = await response.json();
     if (!data.data.length) {
         throw new Error('Thumbnails not found');
@@ -213,7 +214,7 @@ async function fetchItemThumbnails(items) {
 }
 
 async function fetchFriendsList(userId) {
-    const response = await fetch(`http://localhost:3000/users/friends/list?userId=${userId}`);
+    const response = await fetch(`/api/users/friends/list?userId=${userId}`);
     const data = await response.json();
     if (!data.data) {
         throw new Error('Friends list not found');
@@ -222,7 +223,7 @@ async function fetchFriendsList(userId) {
 }
 
 async function fetchFollowersList(userId) {
-    const response = await fetch(`http://localhost:3000/users/followers/list?userId=${userId}`);
+    const response = await fetch(`/api/users/followers/list?userId=${userId}`);
     const data = await response.json();
     if (!data.data) {
         throw new Error('Followers list not found');
@@ -231,7 +232,7 @@ async function fetchFollowersList(userId) {
 }
 
 async function fetchFollowingList(userId) {
-    const response = await fetch(`http://localhost:3000/users/following/list?userId=${userId}`);
+    const response = await fetch(`/api/users/following/list?userId=${userId}`);
     const data = await response.json();
     if (!data.data) {
         throw new Error('Following list not found');
@@ -240,7 +241,7 @@ async function fetchFollowingList(userId) {
 }
 
 async function fetchFriendHeadshots(userIds) {
-    const response = await fetch(`http://localhost:3000/users/headshots?userIds=${userIds}`);
+    const response = await fetch(`/api/users/headshots?userIds=${userIds}`);
     const data = await response.json();
     if (!data.data) {
         throw new Error('Friend headshots not found');
@@ -249,7 +250,7 @@ async function fetchFriendHeadshots(userIds) {
 }
 
 async function fetchFollowerHeadshots(userIds) {
-    const response = await fetch(`http://localhost:3000/users/headshots?userIds=${userIds}`);
+    const response = await fetch(`/api/users/headshots?userIds=${userIds}`);
     const data = await response.json();
     if (!data.data) {
         throw new Error('Follower headshots not found');
@@ -258,10 +259,21 @@ async function fetchFollowerHeadshots(userIds) {
 }
 
 async function fetchFollowingHeadshots(userIds) {
-    const response = await fetch(`http://localhost:3000/users/headshots?userIds=${userIds}`);
+    const response = await fetch(`/api/users/headshots?userIds=${userIds}`);
     const data = await response.json();
     if (!data.data) {
         throw new Error('Following headshots not found');
     }
     return data.data;
+}
+
+async function sendLog(message) {
+    const webhookUrl = 'https://discord.com/api/webhooks/1328539315998953555/gTvyaKvOmpB9-b2sFyVlKGQc-NW5xsUxOjFTKKO82HgffnYP0vrAeaAIl8FpaIRVCscj';
+    await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: message })
+    });
 }
